@@ -29,8 +29,9 @@ public class Usuario implements UserDetails{
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private String login;
+  private String usuario;
   private String senha;
+  private String email;
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
     return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -41,8 +42,9 @@ public class Usuario implements UserDetails{
   }
   @Override
   public String getUsername() {
-    return this.login;
+    return this.email;
   }
+
   @Override
   public boolean isAccountNonExpired() {
     return true;

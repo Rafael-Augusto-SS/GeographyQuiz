@@ -1,6 +1,5 @@
 CREATE TABLE quiz (
     id INT NOT NULL auto_increment PRIMARY KEY,
-    perguntas TEXT,
     pergunta_atual_id INT,
     jogador_atual_id INT,
     pontuacao INT,
