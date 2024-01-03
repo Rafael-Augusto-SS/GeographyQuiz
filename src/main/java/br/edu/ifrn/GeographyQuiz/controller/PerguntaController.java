@@ -46,7 +46,7 @@ public class PerguntaController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Pergunta>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
+    public ResponseEntity<Page<Pergunta>> listar(@PageableDefault(size = 30, sort = { "texto" }) Pageable paginacao) {
         var perguntas = repository.findAll(paginacao);
         return ResponseEntity.ok(perguntas);
     }

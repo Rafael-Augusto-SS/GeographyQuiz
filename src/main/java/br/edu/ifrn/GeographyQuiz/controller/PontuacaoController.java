@@ -46,7 +46,7 @@ public class PontuacaoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<Pontuacao>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
+    public ResponseEntity<Page<Pontuacao>> listar(@PageableDefault(size = 30, sort = { "id" }) Pageable paginacao) {
         var pontuacoes = repository.findAll(paginacao);
         return ResponseEntity.ok(pontuacoes);
     }
