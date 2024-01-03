@@ -17,57 +17,57 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import br.edu.ifrn.GeographyQuiz.domain.usuario.Usuario;
-import br.edu.ifrn.GeographyQuiz.repository.UsuarioRepository;
+import br.edu.ifrn.GeographyQuiz.domain.pontuacao.Pontuacao;
+import br.edu.ifrn.GeographyQuiz.repository.PontuacaoRepository;
 import jakarta.validation.Valid;
 
 @RestController
-@RequestMapping("usuario")
+@RequestMapping("pontuacao")
 @CrossOrigin(origins = "*")
 
-public class UsuarioController {
-
+public class PontuacaoController {
+    
   @Autowired
-  private UsuarioRepository repository;
+  private PontuacaoRepository repository;
 
   @PostMapping
     @Transactional
-    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Usuario usuario,
+    public ResponseEntity<Object> cadastrar(@RequestBody @Valid Pontuacao pontuacao,
             UriComponentsBuilder uriBuilder) {
-        Usuario usuarioLocal = repository.save(usuario);
-        var uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuarioLocal.getId()).toUri();
+        Pontuacao pontuacaoLocal = repository.save(pontuacao);
+        var uri = uriBuilder.path("/pontuacao/{id}").buildAndExpand(pontuacaoLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Usuario> detalhar(@PathVariable Long id) {
-        Usuario usuario = repository.getReferenceById(id);
-        return ResponseEntity.ok(usuario);
+    public ResponseEntity<Pontuacao> detalhar(@PathVariable Long id) {
+        Pontuacao pontuacao = repository.getReferenceById(id);
+        return ResponseEntity.ok(pontuacao);
     }
 
     @GetMapping
-    public ResponseEntity<Page<Usuario>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
-        var usuarios = repository.findAll(paginacao);
-        return ResponseEntity.ok(usuarios);
+    public ResponseEntity<Page<Pontuacao>> listar(@PageableDefault(size = 30, sort = { "nome" }) Pageable paginacao) {
+        var pontuacoes = repository.findAll(paginacao);
+        return ResponseEntity.ok(pontuacoes);
     }
 
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Object> excluir(@PathVariable Long id) {
-        var usuario = repository.getReferenceById(id);
-        repository.delete(usuario);
+        var pontuacao = repository.getReferenceById(id);
+        repository.delete(pontuacao);
         return ResponseEntity.noContent().build();
     }
 
     @PutMapping
     @Transactional
-    public ResponseEntity<Usuario> atualizar(@RequestBody @Valid Usuario usuario) {
-        Usuario usuarioLocal = repository.findById(
-                usuario.getId()).get();
+    public ResponseEntity<Pontuacao> atualizar(@RequestBody @Valid Pontuacao pontuacao) {
+        Pontuacao pontuacaoLocal = repository.findById(
+                pontuacao.getId()).get();
 
-        usuarioLocal.setUsuario(usuario.getUsuario());
+        pontuacaoLocal.setId(pontuacao.getId());
 
-        return ResponseEntity.ok(usuarioLocal);
+        return ResponseEntity.ok(pontuacaoLocal);
     }
 
 
