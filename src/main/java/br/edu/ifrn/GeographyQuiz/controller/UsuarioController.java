@@ -6,7 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,27 +17,31 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+
 import br.edu.ifrn.GeographyQuiz.domain.usuario.Usuario;
 import br.edu.ifrn.GeographyQuiz.repository.UsuarioRepository;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("usuario")
-@CrossOrigin(origins = "*")
-
 public class UsuarioController {
 
   @Autowired
   private UsuarioRepository repository;
 
+  @Autowired
+  private BCryptPasswordEncoder passwordEncoder;
+
   @PostMapping
     @Transactional
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Usuario usuario,
             UriComponentsBuilder uriBuilder) {
-        Usuario usuarioLocal = repository.save(usuario);
-        var uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuarioLocal.getId()).toUri();
-        return ResponseEntity.created(uri).build();
-    }
+    String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+    usuario.setSenha(senhaCriptografada);
+    Usuario usuarioLocal = repository.save(usuario);
+    var uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuarioLocal.getId()).toUri();
+    return ResponseEntity.created(uri).build();
+}
 
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> detalhar(@PathVariable Long id) {
