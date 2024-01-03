@@ -33,8 +33,8 @@ public class Usuario implements UserDetails{
   private Long id;
 
   @NotBlank(message = "O nome de usuario é obrigatório")
-  @Column(name = "usuario")
-  private String usuario;
+  @Column(name = "nome")
+  private String nome;
 
   @NotBlank(message = "A é obrigatório")
   @Column(name = "senha")
@@ -55,7 +55,7 @@ public class Usuario implements UserDetails{
   }
   @Override
   public String getUsername() {
-    return this.email;
+    return this.nome;
   }
 
   @Override

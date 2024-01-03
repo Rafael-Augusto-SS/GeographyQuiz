@@ -75,7 +75,7 @@ public class UsuarioController {
         Usuario usuarioLocal = repository.findById(
                 usuario.getId()).get();
 
-        usuarioLocal.setUsuario(usuario.getUsuario());
+        usuarioLocal.setNome(usuario.getNome());
 
         return ResponseEntity.ok(usuarioLocal);
     }
