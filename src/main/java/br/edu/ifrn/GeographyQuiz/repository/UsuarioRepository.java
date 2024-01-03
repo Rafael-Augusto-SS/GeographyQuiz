@@ -8,5 +8,5 @@ import br.edu.ifrn.GeographyQuiz.domain.usuario.Usuario;
 public interface UsuarioRepository extends JpaRepository<Usuario, Long>{
 
   UserDetails findByEmail(String email);
-  
+  boolean existsByEmail(String Email);
 }

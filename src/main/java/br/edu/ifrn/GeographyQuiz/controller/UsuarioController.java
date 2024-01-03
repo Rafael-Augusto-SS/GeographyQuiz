@@ -36,11 +36,15 @@ public class UsuarioController {
     @Transactional
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Usuario usuario,
             UriComponentsBuilder uriBuilder) {
-    String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
-    usuario.setSenha(senhaCriptografada);
-    Usuario usuarioLocal = repository.save(usuario);
-    var uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuarioLocal.getId()).toUri();
-    return ResponseEntity.created(uri).build();
+
+        if (repository.existsByEmail(usuario.getEmail())) {
+            return ResponseEntity.badRequest().body("Esse Email já cadastrado");
+        }
+        String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
+        usuario.setSenha(senhaCriptografada);
+        Usuario usuarioLocal = repository.save(usuario);
+        var uri = uriBuilder.path("/usuario/{id}").buildAndExpand(usuarioLocal.getId()).toUri();
+        return ResponseEntity.created(uri).build();
 }
 
     @GetMapping("/{id}")
