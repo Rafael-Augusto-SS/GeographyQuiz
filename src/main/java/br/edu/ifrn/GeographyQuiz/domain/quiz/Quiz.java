@@ -41,7 +41,6 @@ public class Quiz {
     private LocalDate data_hora;
     
     @OneToMany(mappedBy = "quiz", fetch = FetchType.EAGER)
-    @JsonIgnore 
     @JsonManagedReference
     private List<Pergunta> perguntas;
     
