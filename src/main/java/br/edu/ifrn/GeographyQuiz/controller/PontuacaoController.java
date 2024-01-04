@@ -1,5 +1,7 @@
 package br.edu.ifrn.GeographyQuiz.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -42,6 +44,12 @@ public class PontuacaoController {
     @GetMapping("/{id}")
     public ResponseEntity<Pontuacao> detalhar(@PathVariable Long id) {
         Pontuacao pontuacao = repository.getReferenceById(id);
+        return ResponseEntity.ok(pontuacao);
+    }
+
+    @GetMapping("/id/{id}")
+    public ResponseEntity<List<Pontuacao>> detalharPorUsuario(@PathVariable Long id) {
+        var pontuacao = repository.findAllByUsuarioId(id);
         return ResponseEntity.ok(pontuacao);
     }
 
