@@ -61,6 +61,12 @@ public class UsuarioController {
         return ResponseEntity.ok(usuarios);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Usuario> buscarPorEmail(@PathVariable String email) {
+        Usuario usuario = repository.findByEmail(email);
+        return ResponseEntity.ok(usuario);
+    }
+
     @DeleteMapping("/{id}")
     @Transactional
     public ResponseEntity<Object> excluir(@PathVariable Long id) {
