@@ -33,7 +33,7 @@ public class QuizController {
   @PostMapping
     @Transactional
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Quiz quiz,
-            UriComponentsBuilder uriBuilder) {
+        UriComponentsBuilder uriBuilder) {
         Quiz quizLocal = repository.save(quiz);
         var uri = uriBuilder.path("/quiz/{id}").buildAndExpand(quizLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -63,9 +63,12 @@ public class QuizController {
     @Transactional
     public ResponseEntity<Quiz> atualizar(@RequestBody @Valid Quiz quiz) {
         Quiz quizLocal = repository.findById(
-                quiz.getId()).get();
+        quiz.getId()).get();
 
-        quizLocal.setId(quiz.getId());
+        quizLocal.setNome(quiz.getNome());
+        quizLocal.setDescricao(quiz.getDescricao());
+        quizLocal.setNota(quiz.getNota());
+        quizLocal.setData_hora(quiz.getData_hora());
 
         return ResponseEntity.ok(quizLocal);
     }

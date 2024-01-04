@@ -37,11 +37,11 @@ public class UsuarioController {
   @PostMapping
     @Transactional
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Usuario usuario,
-            UriComponentsBuilder uriBuilder) {
-
+        UriComponentsBuilder uriBuilder) {
         if (repository.existsByEmail(usuario.getEmail())) {
             return ResponseEntity.badRequest().body("Esse Email já cadastrado");
         }
+
         String senhaCriptografada = passwordEncoder.encode(usuario.getSenha());
         usuario.setSenha(senhaCriptografada);
         Usuario usuarioLocal = repository.save(usuario);
@@ -73,10 +73,12 @@ public class UsuarioController {
     @Transactional
     public ResponseEntity<Usuario> atualizar(@RequestBody @Valid Usuario usuario) {
         Usuario usuarioLocal = repository.findById(
-                usuario.getId()).get();
+        usuario.getId()).get();
 
         usuarioLocal.setNome(usuario.getNome());
-
+        usuarioLocal.setEmail(usuario.getEmail());
+        usuarioLocal.setSenha(usuario.getSenha());
+        
         return ResponseEntity.ok(usuarioLocal);
     }
 

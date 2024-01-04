@@ -33,7 +33,7 @@ public class PerguntaController {
   @PostMapping
     @Transactional
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Pergunta pergunta,
-            UriComponentsBuilder uriBuilder) {
+        UriComponentsBuilder uriBuilder) {
         Pergunta perguntaLocal = repository.save(pergunta);
         var uri = uriBuilder.path("/pergunta/{id}").buildAndExpand(perguntaLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -63,9 +63,12 @@ public class PerguntaController {
     @Transactional
     public ResponseEntity<Pergunta> atualizar(@RequestBody @Valid Pergunta pergunta) {
         Pergunta perguntaLocal = repository.findById(
-                pergunta.getId()).get();
+        pergunta.getId()).get();
 
-        perguntaLocal.setId(pergunta.getId());
+        perguntaLocal.setTexto(pergunta.getTexto());
+        perguntaLocal.setQuiz(pergunta.getQuiz());
+        perguntaLocal.setResposta_correta(pergunta.getResposta_correta());
+        perguntaLocal.setRespostas(pergunta.getRespostas());
 
         return ResponseEntity.ok(perguntaLocal);
     }

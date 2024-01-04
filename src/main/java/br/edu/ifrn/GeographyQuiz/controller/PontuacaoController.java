@@ -33,7 +33,7 @@ public class PontuacaoController {
   @PostMapping
     @Transactional
     public ResponseEntity<Object> cadastrar(@RequestBody @Valid Pontuacao pontuacao,
-            UriComponentsBuilder uriBuilder) {
+        UriComponentsBuilder uriBuilder) {
         Pontuacao pontuacaoLocal = repository.save(pontuacao);
         var uri = uriBuilder.path("/pontuacao/{id}").buildAndExpand(pontuacaoLocal.getId()).toUri();
         return ResponseEntity.created(uri).build();
@@ -63,9 +63,10 @@ public class PontuacaoController {
     @Transactional
     public ResponseEntity<Pontuacao> atualizar(@RequestBody @Valid Pontuacao pontuacao) {
         Pontuacao pontuacaoLocal = repository.findById(
-                pontuacao.getId()).get();
+        pontuacao.getId()).get();
 
-        pontuacaoLocal.setId(pontuacao.getId());
+        pontuacaoLocal.setQuiz(pontuacao.getQuiz());
+        pontuacaoLocal.setUsuario(pontuacao.getUsuario());
 
         return ResponseEntity.ok(pontuacaoLocal);
     }
