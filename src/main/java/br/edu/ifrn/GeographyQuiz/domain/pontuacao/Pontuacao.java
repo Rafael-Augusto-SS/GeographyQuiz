@@ -1,5 +1,6 @@
 package br.edu.ifrn.GeographyQuiz.domain.pontuacao;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,6 +16,7 @@ import lombok.Setter;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import br.edu.ifrn.GeographyQuiz.domain.quiz.Quiz;
 import br.edu.ifrn.GeographyQuiz.domain.usuario.Usuario;
@@ -31,9 +33,13 @@ public class Pontuacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "pontuacao")
+    private int pontuacao;
+
     @ManyToOne
     @JoinColumn(name = "quiz_id")
     @JsonBackReference
+    @JsonIgnore
     private Quiz quiz;
 
     @ManyToOne
