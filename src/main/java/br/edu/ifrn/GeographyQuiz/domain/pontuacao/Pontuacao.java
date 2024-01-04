@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -14,6 +15,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
+import org.springframework.core.serializer.Serializer;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,7 +32,7 @@ import br.edu.ifrn.GeographyQuiz.domain.usuario.Usuario;
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
-public class Pontuacao {
+public class Pontuacao implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,14 +41,12 @@ public class Pontuacao {
     private int pontuacao;
 
     @ManyToOne
-    @JoinColumn(name = "quiz_id")
-    @JsonBackReference
-    @JsonIgnore
-    private Quiz quiz;
-
-    @ManyToOne
     @JoinColumn(name = "usuario_id")
     @JsonBackReference
     private Usuario usuario;
+
+    @ManyToOne
+    @JoinColumn(name = "quiz_id")
+    private Quiz quiz;
 
 }

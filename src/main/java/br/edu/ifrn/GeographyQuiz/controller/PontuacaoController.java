@@ -64,8 +64,7 @@ public class PontuacaoController {
     public ResponseEntity<Pontuacao> atualizar(@RequestBody @Valid Pontuacao pontuacao) {
         Pontuacao pontuacaoLocal = repository.findById(
         pontuacao.getId()).get();
-
-        pontuacaoLocal.setQuiz(pontuacao.getQuiz());
+        
         pontuacaoLocal.setUsuario(pontuacao.getUsuario());
 
         return ResponseEntity.ok(pontuacaoLocal);
